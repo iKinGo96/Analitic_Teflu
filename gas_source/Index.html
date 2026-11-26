@@ -22,10 +22,10 @@
       --text-muted: var(--muted);
       --text-primary: var(--text);
       --text-color: var(--text);
-      --color-oee: #dc2626;
-      --color-disp: #2563eb;
-      --color-eff: #0891b2;
-      --color-qual: #8b5cf6;
+      --color-oee: #c00000;
+      --color-disp: #002060;
+      --color-eff: #7a7a7a;
+      --color-qual: #41719c;
       --radius: 18px;
       --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     }
@@ -580,9 +580,8 @@
         transition: opacity 0.2s ease;
       }
 
-      /* Estado desplegado en Hover, Focus-within o clase activa */
+      /* Estado desplegado en Hover o clase activa */
       .collapsible-filter-panel:hover,
-      .collapsible-filter-panel:focus-within,
       .collapsible-filter-panel.is-expanded {
         margin-bottom: 16px !important;
         padding: 6px 16px !important;
@@ -593,12 +592,10 @@
         cursor: default;
       }
       .collapsible-filter-panel:hover .filter-collapsed-summary,
-      .collapsible-filter-panel:focus-within .filter-collapsed-summary,
       .collapsible-filter-panel.is-expanded .filter-collapsed-summary {
         display: none !important;
       }
       .collapsible-filter-panel:hover .filter-expanded-content,
-      .collapsible-filter-panel:focus-within .filter-expanded-content,
       .collapsible-filter-panel.is-expanded .filter-expanded-content {
         display: flex !important;
         opacity: 1 !important;
@@ -703,16 +700,56 @@
         box-shadow: 0 0 0 2px var(--accent), 0 4px 12px rgba(0,0,0,0.06);
       }
 
-      /* Barra de píldoras de métricas de tendencia */
+      /* Barra de píldoras y metas de métricas de tendencia */
       .trend-pill-legend {
-        display: flex;
-        align-items: center;
-        gap: 4px;
+        display: inline-flex;
+        align-items: stretch;
+        gap: 6px;
         background: var(--surface-variant, #f8fafc);
         border: 1px solid var(--stroke, #e2e8f0);
+        border-radius: 10px;
+        padding: 5px 8px 6px 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+      }
+      .trend-pill-legend::-webkit-scrollbar {
+        height: 3px;
+      }
+      .trend-pill-legend::-webkit-scrollbar-thumb {
+        background: rgba(148, 163, 184, 0.4);
+        border-radius: 4px;
+      }
+      .trend-pill-col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        gap: 4px;
+        cursor: pointer;
+        padding: 0 2px;
         border-radius: 8px;
-        padding: 3px 5px;
-        flex-wrap: wrap;
+        transition: all 0.15s ease;
+      }
+      .trend-pill-lead-col {
+        cursor: default;
+        justify-content: flex-end;
+        padding-right: 6px;
+        margin-right: 2px;
+      }
+      .trend-pill-spacer {
+        flex: 1;
+        min-height: 24px;
+      }
+      .trend-meta-lead {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--text-muted, #64748b);
+        line-height: 1.2;
+        padding-bottom: 2px;
+        user-select: none;
       }
       .trend-pill-btn {
         display: inline-flex;
@@ -728,6 +765,7 @@
         color: var(--text-muted, #64748b);
         transition: all 0.15s ease;
         line-height: 1.2;
+        white-space: nowrap;
       }
       .trend-pill-btn:hover {
         background: var(--surface, #ffffff);
@@ -746,14 +784,111 @@
         border-radius: 50%;
         flex-shrink: 0;
       }
-      .trend-meta-label {
+      .trend-meta-val {
         font-size: 11px;
         font-weight: 600;
-        color: #c00000;
-        margin-left: 6px;
-        border-left: 1px solid var(--stroke, #cbd5e1);
-        padding-left: 8px;
+        color: #64748b;
+        line-height: 1.2;
+        padding-bottom: 2px;
+        text-align: center;
+        transition: all 0.15s ease;
+        user-select: none;
         white-space: nowrap;
+      }
+      .trend-pill-col.active .trend-meta-val {
+        font-weight: 800;
+        color: var(--text, #0f1c2e);
+      }
+      .trend-pill-col.active[data-metric="oee"] .trend-meta-val {
+        color: #c00000;
+      }
+      .trend-pill-col.active[data-metric="occupancy"] .trend-meta-val {
+        color: #000000;
+      }
+      .trend-pill-col.active[data-metric="availability"] .trend-meta-val {
+        color: #002060;
+      }
+      .trend-pill-col.active[data-metric="efficiency"] .trend-meta-val {
+        color: #737373;
+      }
+      .trend-pill-col.active[data-metric="quality"] .trend-meta-val {
+        color: #41719c;
+      }
+      .trend-pill-col:not(.trend-pill-lead-col):hover .trend-pill-btn:not(.active) {
+        background: rgba(255, 255, 255, 0.7);
+        color: var(--text, #0f1c2e);
+      }
+
+      /* Responsive layout para cabecera de tendencia y píldoras */
+      @media (max-width: 1120px) {
+        .card-head {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+        }
+        .card-head-title-wrap {
+          flex: 1 1 auto;
+        }
+        .card-head-actions-wrap {
+          margin-left: auto;
+        }
+        .trend-pill-legend {
+          width: 100%;
+          justify-content: space-between;
+          box-sizing: border-box;
+          overflow-x: auto;
+        }
+      }
+      @media (max-width: 760px) {
+        .card-head {
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+          gap: 10px;
+        }
+        .card-head-title-wrap {
+          width: 100%;
+        }
+        .card-head-actions-wrap {
+          display: flex;
+          justify-content: flex-end;
+          width: 100%;
+        }
+        .trend-pill-legend {
+          width: 100%;
+          justify-content: flex-start;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: thin;
+          box-sizing: border-box;
+          padding: 4px 6px;
+          gap: 4px;
+        }
+        .trend-pill-col {
+          flex-shrink: 0;
+        }
+        .trend-pill-btn {
+          padding: 3px 7px;
+          font-size: 11px;
+        }
+        .trend-meta-lead, .trend-meta-val {
+          font-size: 10px;
+        }
+        #trendChart {
+          height: 380px;
+          min-height: 320px;
+        }
+      }
+      @media (max-width: 480px) {
+        .card-head-title-wrap h2.card-title {
+          font-size: 20px !important;
+        }
+        #trendChart {
+          height: 340px;
+          min-height: 300px;
+        }
       }
 
       /* Barra de etiquetas de causas (de 5 en 5, bien ordenadas) */
@@ -1247,12 +1382,13 @@ function resolveSelection_(requestedFilters, options, rows) {
     options.periods[options.periods.length - 1].value,
     'periodo final'
   );
-  var defaultFrom = shiftPeriod_(toPeriod, -11);
-  var availableFrom = options.periods.filter(function (period) { return period.value >= defaultFrom && period.value <= toPeriod; });
+  var toYear = toPeriod.split('-')[0];
+  var yearPeriods = options.periods.filter(function (period) { return (period.value || period).startsWith(toYear) && (period.value || period) <= toPeriod; });
+  var defaultFrom = yearPeriods.length ? (yearPeriods[0].value || yearPeriods[0]) : shiftPeriod_(toPeriod, -11);
   var fromPeriod = canonicalPeriod_(
     filters.fromPeriod || filters.from,
     options.periods,
-    availableFrom.length ? availableFrom[0].value : toPeriod,
+    defaultFrom,
     'periodo inicial'
   );
 
@@ -2274,7 +2410,7 @@ function errorStack_(error) {
         <div style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text);">
           <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="var(--muted)" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
           <span style="font-weight: 700; color: var(--text);">Filtros:</span>
-          <span id="historySummaryFilters" style="font-weight: 500; color: var(--text-muted);">Continuo · Todos los procesos</span>
+          <span id="historySummaryFilters" style="font-weight: 500; color: var(--text-muted);">2026 · Todos los procesos</span>
           <span style="color: var(--stroke-strong, #cbd5e1); margin: 0 4px;">|</span>
           <span id="historySummaryPeriod" style="font-weight: 600; color: var(--color-oee, #c00000);">📅 ene 2026 – nov 2026</span>
         </div>
@@ -2319,39 +2455,60 @@ function errorStack_(error) {
       <div style="display: flex; flex-direction: column; gap: 14px;">
         <article class="chart-card panel" id="trendCard">
           <div class="card-head">
-            <div style="display: flex; align-items: flex-start; gap: 8px;">
-  <div><h2 class="card-title" style="font-size: 24px; margin: 0; font-weight: 700;">Tendencia de m&aacute;quina</h2><p class="card-subtitle" id="trendSubtitle">Evoluci&oacute;n mensual de la m&aacute;quina seleccionada.</p></div>
-  <div class="info-tooltip-trigger" style="margin-top: 2px;">
-    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-    <div class="info-tooltip-content">
-      <div style="font-weight: 600; font-size: 14px; margin-bottom: 4px; color: var(--text);">Lecturas clave</div>
-      <div style="font-size: 11px; color: var(--muted); margin-bottom: 12px;">Hallazgos calculados con la selecci&oacute;n actual.</div>
-      <div class="insight-list" id="insightList"></div>
-    </div>
-  </div>
-</div>
-              <div class="trend-pill-legend" id="trendPillLegend">
-                <button type="button" class="trend-pill-btn active" data-metric="oee" title="Ver tendencia de OEE">
-                  <span class="trend-pill-dot" style="background: var(--color-oee, #c00000);"></span>OEE
-                </button>
-                <button type="button" class="trend-pill-btn" data-metric="occupancy" title="Ver tendencia de Ocupación Real">
-                  <span class="trend-pill-dot" style="background: #475569;"></span>Ocupación Real
-                </button>
-                <button type="button" class="trend-pill-btn" data-metric="availability" title="Ver tendencia de Disponibilidad">
-                  <span class="trend-pill-dot" style="background: var(--color-disp, #002060);"></span>Disponibilidad
-                </button>
-                <button type="button" class="trend-pill-btn" data-metric="efficiency" title="Ver tendencia de Eficiencia">
-                  <span class="trend-pill-dot" style="background: var(--color-eff, #a6a6a6);"></span>Eficiencia
-                </button>
-                <button type="button" class="trend-pill-btn" data-metric="quality" title="Ver tendencia de Calidad">
-                  <span class="trend-pill-dot" style="background: var(--color-qual, #b4c6e7);"></span>Calidad
-                </button>
-                <button type="button" class="trend-pill-btn" data-metric="all" title="Ver todos los indicadores comparados">
-                  <span class="trend-pill-dot" style="background: #2563eb;"></span>Todos
-                </button>
-                <span class="trend-meta-label" id="targetLegend">-- META: 84.5%</span>
+            <div class="card-head-title-wrap" style="display: flex; align-items: flex-start; gap: 8px;">
+              <div><h2 class="card-title" style="font-size: 24px; margin: 0; font-weight: 700;">Tendencia de m&aacute;quina</h2><p class="card-subtitle" id="trendSubtitle">Evoluci&oacute;n mensual de la m&aacute;quina seleccionada.</p></div>
+              <div class="info-tooltip-trigger" style="margin-top: 2px;">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                <div class="info-tooltip-content">
+                  <div style="font-weight: 600; font-size: 14px; margin-bottom: 4px; color: var(--text);">Lecturas clave</div>
+                  <div style="font-size: 11px; color: var(--muted); margin-bottom: 12px;">Hallazgos calculados con la selecci&oacute;n actual.</div>
+                  <div class="insight-list" id="insightList"></div>
+                </div>
               </div>
-            <div style="display: flex; align-items: center; gap: 8px;">
+            </div>
+            <div class="trend-pill-legend" id="trendPillLegend">
+              <div class="trend-pill-col trend-pill-lead-col">
+                <div class="trend-pill-spacer"></div>
+                <span class="trend-meta-lead">Meta:</span>
+              </div>
+              <div class="trend-pill-col active" data-metric="oee">
+                <button type="button" class="trend-pill-btn active" data-metric="oee" title="Ver tendencia de OEE">
+                  <span class="trend-pill-dot" style="background: #c00000;"></span>OEE
+                </button>
+                <span class="trend-meta-val" id="targetLegend" data-metric="oee">84.5%</span>
+              </div>
+              <div class="trend-pill-col" data-metric="occupancy">
+                <button type="button" class="trend-pill-btn" data-metric="occupancy" title="Ver tendencia de Ocupación Real">
+                  <span class="trend-pill-dot" style="background: #000000;"></span>Ocupación Real
+                </button>
+                <span class="trend-meta-val" id="metaValOccupancy" data-metric="occupancy">&mdash;</span>
+              </div>
+              <div class="trend-pill-col" data-metric="availability">
+                <button type="button" class="trend-pill-btn" data-metric="availability" title="Ver tendencia de Disponibilidad">
+                  <span class="trend-pill-dot" style="background: #002060;"></span>Disponibilidad
+                </button>
+                <span class="trend-meta-val" id="metaValAvailability" data-metric="availability">90%</span>
+              </div>
+              <div class="trend-pill-col" data-metric="efficiency">
+                <button type="button" class="trend-pill-btn" data-metric="efficiency" title="Ver tendencia de Eficiencia">
+                  <span class="trend-pill-dot" style="background: #a6a6a6;"></span>Eficiencia
+                </button>
+                <span class="trend-meta-val" id="metaValEfficiency" data-metric="efficiency">95%</span>
+              </div>
+              <div class="trend-pill-col" data-metric="quality">
+                <button type="button" class="trend-pill-btn" data-metric="quality" title="Ver tendencia de Calidad">
+                  <span class="trend-pill-dot" style="background: #b4c6e7; border: 1px solid #7f9ec9;"></span>Calidad
+                </button>
+                <span class="trend-meta-val" id="metaValQuality" data-metric="quality">99.4%</span>
+              </div>
+              <div class="trend-pill-col" data-metric="all">
+                <button type="button" class="trend-pill-btn" data-metric="all" title="Ver todos los indicadores comparados">
+                  <span class="trend-pill-dot" style="background: #002060;"></span>Todos
+                </button>
+                <span class="trend-meta-val" id="metaValAll" data-metric="all">&mdash;</span>
+              </div>
+            </div>
+            <div class="card-head-actions-wrap" style="display: flex; align-items: center; gap: 8px;">
               <button type="button" class="action-button" id="btnToggleTrendChartType" title="Cambiar a gráfica de barras" style="gap: 6px; font-size: 12px; padding: 6px 12px; height: 32px; display: inline-flex; align-items: center; border-radius: 8px; cursor: pointer;">
                 <svg id="trendTypeIconBar" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="12" width="4" height="9"/><rect x="10" y="7" width="4" height="14"/><rect x="17" y="3" width="4" height="18"/></svg>
                 <svg id="trendTypeIconLine" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" style="display: none;"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
@@ -3178,7 +3335,11 @@ function errorStack_(error) {
     function setTrendMetric(metric) {
       state.trendMetric = metric || 'oee';
       
-      // Update pill buttons
+      // Update pill columns and buttons
+      const cols = document.querySelectorAll('.trend-pill-col[data-metric]');
+      cols.forEach(c => {
+        c.classList.toggle('active', c.getAttribute('data-metric') === state.trendMetric);
+      });
       const pills = document.querySelectorAll('.trend-pill-btn');
       pills.forEach(p => {
         p.classList.toggle('active', p.getAttribute('data-metric') === state.trendMetric);
@@ -3208,10 +3369,10 @@ function errorStack_(error) {
         const subtitles = {
           'oee': `Evolución mensual de OEE · Meta: ${targetStr}`,
           'occupancy': 'Evolución mensual de Ocupación Real',
-          'availability': 'Evolución mensual de Disponibilidad',
-          'efficiency': 'Evolución mensual de Eficiencia',
-          'quality': 'Evolución mensual de Calidad',
-          'all': 'Evolución mensual de todos los indicadores'
+          'availability': 'Evolución mensual de Disponibilidad · Meta: 90.0%',
+          'efficiency': 'Evolución mensual de Eficiencia · Meta: 95.0%',
+          'quality': 'Evolución mensual de Calidad · Meta: 99.4%',
+          'all': `Evolución mensual de todos los indicadores · Meta OEE: ${targetStr}`
         };
         subEl.textContent = subtitles[state.trendMetric] || 'Evolución mensual de la máquina seleccionada.';
       }
@@ -3366,10 +3527,18 @@ function errorStack_(error) {
         }
       });
 
-      // Vincular clic en píldoras interactivas de la leyenda
+      // Vincular clic en píldoras interactivas de la leyenda (botón o columna)
+      const trendCols = document.querySelectorAll('.trend-pill-col[data-metric]');
+      trendCols.forEach(col => {
+        col.addEventListener('click', (e) => {
+          const m = col.getAttribute('data-metric');
+          if (m) setTrendMetric(m);
+        });
+      });
       const trendPills = document.querySelectorAll('.trend-pill-btn');
       trendPills.forEach(btn => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
           const m = btn.getAttribute('data-metric');
           if (m) setTrendMetric(m);
         });
@@ -3380,9 +3549,15 @@ function errorStack_(error) {
       if (els.processFilter) els.processFilter.addEventListener('change', updateHistoryFilterSummary);
       if (els.machineFilter) els.machineFilter.addEventListener('change', updateHistoryFilterSummary);
 
-      // Soporte para touch/click toggle en panel de filtros colapsable
+      // Soporte para hover y touch en panel de filtros colapsable (se oculta al salir el cursor)
       const filterPanel = document.getElementById('historyFilterPanel');
       if (filterPanel) {
+        filterPanel.addEventListener('mouseleave', () => {
+          filterPanel.classList.remove('is-expanded');
+          if (document.activeElement && filterPanel.contains(document.activeElement)) {
+            document.activeElement.blur();
+          }
+        });
         filterPanel.addEventListener('click', (e) => {
           if (!filterPanel.classList.contains('is-expanded') && !e.target.closest('select, input, button')) {
             filterPanel.classList.add('is-expanded');
@@ -5000,16 +5175,21 @@ function errorStack_(error) {
           isFirstLoad = false;
           if (data && data.filters && data.filters.periods && data.filters.periods.length > 0) {
             const periods = data.filters.periods;
-            const firstPeriod = periods[0].value || periods[0];
-            const lastPeriod = periods[periods.length - 1].value || periods[periods.length - 1];
-            if (data.selection && data.selection.fromPeriod && data.selection.fromPeriod !== firstPeriod) {
-               els.fromFilter.value = firstPeriod;
-               els.toFilter.value = lastPeriod;
-               
-               const years = [...new Set(periods.map(p => (p.value || p).split('-')[0]))].sort().reverse();
-               els.yearFilter.innerHTML = '<option value="all">Continuo</option>' + years.map(y => '<option value="' + y + '">' + y + '</option>').join('');
-               els.yearFilter.value = 'all';
-               
+            const years = [...new Set(periods.map(p => (p.value || p).split('-')[0]))].sort().reverse();
+            const currentYearStr = String(new Date().getFullYear());
+            const targetYear = years.includes(currentYearStr) ? currentYearStr : years[0];
+
+            els.yearFilter.innerHTML = '<option value="all">Continuo</option>' + years.map(y => '<option value="' + y + '">' + y + '</option>').join('');
+            els.yearFilter.value = targetYear;
+
+            const yearPeriods = periods.filter(p => (p.value || p).startsWith(targetYear));
+            const fromPeriod = yearPeriods.length > 0 ? (yearPeriods[0].value || yearPeriods[0]) : (periods[0].value || periods[0]);
+            const toPeriod = yearPeriods.length > 0 ? (yearPeriods[yearPeriods.length - 1].value || yearPeriods[yearPeriods.length - 1]) : (periods[periods.length - 1].value || periods[periods.length - 1]);
+
+            els.fromFilter.value = fromPeriod;
+            els.toFilter.value = toPeriod;
+
+            if (data.selection && (data.selection.fromPeriod !== fromPeriod || data.selection.toPeriod !== toPeriod)) {
                loadDashboard(currentFilters());
                return; 
             }
@@ -5022,7 +5202,9 @@ function errorStack_(error) {
       // renderRanking(data.ranking || []);
       const meta = data.meta || {};
       
-      els.targetLegend.innerHTML = `<i class="legend-dash"></i>META: ${new Intl.NumberFormat('es-MX', { style: 'percent', minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(meta.oeeTarget ?? 0.85)}`;
+      if (els.targetLegend) {
+        els.targetLegend.textContent = new Intl.NumberFormat('es-MX', { style: 'percent', minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(meta.oeeTarget ?? 0.845);
+      }
       els.lastUpdated.textContent = `Última actualización: ${formatTimestamp(meta.updatedAt)}`;
       els.trendSubtitle.textContent = `${displaySelection(data.selection)} · ${data.trend.length} ${data.trend.length === 1 ? 'periodo visible' : 'periodos visibles'}`;
       const rankPeriod = data.ranking?.[0]?.periodLabel || data.ranking?.[0]?.period || data.selection?.toLabel || '';
@@ -5051,18 +5233,22 @@ function errorStack_(error) {
         els.historyBackBtn.style.display = selection.machine ? '' : 'none';
 
               const periods = filters.periods || [];
-                if (periods.length > 0 && !els.yearFilter.options.length) {
-          const years = [...new Set(periods.map(p => (p.value || p).split('-')[0]))].sort().reverse();
-          els.yearFilter.innerHTML = '<option value="all">Continuo</option>' + years.map(y => '<option value="' + y + '">' + y + '</option>').join('');
-        }
-        if (selection.toPeriod) {
-          const parts = selection.toPeriod.split('-');
-          if (parts.length === 2) { 
-            if (els.yearFilter.value !== 'all') { els.yearFilter.value = parts[0]; } 
-            const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-            els.dynamicTitle.textContent = monthNames[parseInt(parts[1], 10) - 1] + ' ' + parts[0];
-          }
-        }
+              if (periods.length > 0 && !els.yearFilter.options.length) {
+                const years = [...new Set(periods.map(p => (p.value || p).split('-')[0]))].sort().reverse();
+                els.yearFilter.innerHTML = '<option value="all">Continuo</option>' + years.map(y => '<option value="' + y + '">' + y + '</option>').join('');
+                const currentYearStr = String(new Date().getFullYear());
+                const defYear = years.includes(currentYearStr) ? currentYearStr : years[0];
+                els.yearFilter.value = defYear;
+              }
+              if (selection.toPeriod) {
+                const parts = selection.toPeriod.split('-');
+                if (parts.length === 2) { 
+                  if (els.yearFilter.value !== 'all') { els.yearFilter.value = parts[0]; } 
+                  const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+                  els.dynamicTitle.textContent = monthNames[parseInt(parts[1], 10) - 1] + ' ' + parts[0];
+                }
+              }
+              updateHistoryFilterSummary();
                   if (periods.length > 0) {
           let visiblePeriods = els.yearFilter.value === "all" ? periods : periods.filter(p => (p.value || p).startsWith(els.yearFilter.value));
           if(visiblePeriods.length === 0) visiblePeriods = periods;
@@ -5774,16 +5960,26 @@ function errorStack_(error) {
     }
 
     function drawTrendChart(rows) {
-      const target = normalizeRatio(state.data?.meta?.oeeTarget ?? 0.85);
+      const oeeTarget = normalizeRatio(state.data?.meta?.oeeTarget ?? 0.845) || 0.845;
       const isBars = state.trendChartType === 'bars';
       const metric = state.trendMetric || 'oee';
 
+      const KPI_TARGETS = {
+        'oee': oeeTarget,
+        'occupancy': null,
+        'availability': 0.90,
+        'efficiency': 0.95,
+        'quality': 0.994,
+        'all': oeeTarget
+      };
+      const currentTarget = KPI_TARGETS[metric] !== undefined ? KPI_TARGETS[metric] : null;
+
       const metricConfigs = {
         'oee': { label: 'OEE', color: '#c00000', getter: r => normalizeRatio(r.oee) },
-        'occupancy': { label: 'Ocupación Real', color: '#475569', getter: r => normalizeRatio(r.occupancy) },
+        'occupancy': { label: 'Ocupación Real', color: '#000000', getter: r => normalizeRatio(r.occupancy) },
         'availability': { label: 'Disponibilidad', color: '#002060', getter: r => normalizeRatio(r.availability) },
-        'efficiency': { label: 'Eficiencia', color: '#a6a6a6', getter: r => normalizeRatio(r.efficiency) },
-        'quality': { label: 'Calidad', color: '#b4c6e7', getter: r => normalizeRatio(r.quality) }
+        'efficiency': { label: 'Eficiencia', color: '#7a7a7a', getter: r => normalizeRatio(r.efficiency) },
+        'quality': { label: 'Calidad', color: '#41719c', getter: r => normalizeRatio(r.quality) }
       };
 
       const table = new google.visualization.DataTable();
@@ -5800,7 +5996,7 @@ function errorStack_(error) {
         table.addColumn('number', 'Disponibilidad');
         table.addColumn('number', 'Eficiencia');
         table.addColumn('number', 'Calidad');
-        table.addColumn('number', 'Objetivo OEE');
+        table.addColumn('number', `Meta OEE (${(oeeTarget * 100).toFixed(1)}%)`);
 
         rows.forEach(row => {
           const oeeRatio = normalizeRatio(row.oee);
@@ -5819,42 +6015,63 @@ function errorStack_(error) {
             dispRatio,
             effRatio,
             qualRatio,
-            target
+            oeeTarget
           ]);
         });
 
-        colors = ['#c00000', '#475569', '#002060', '#a6a6a6', '#b4c6e7', '#c00000'];
+        colors = ['#c00000', '#000000', '#002060', '#7a7a7a', '#41719c', '#c00000'];
         series = {
           0: isBars ? { } : { lineWidth: 1.5, pointSize: 4 },
           1: isBars ? { } : { lineWidth: 1.5, pointSize: 3 },
           2: isBars ? { } : { lineWidth: 1.5, pointSize: 3 },
           3: isBars ? { } : { lineWidth: 1.5, pointSize: 3 },
           4: isBars ? { } : { lineWidth: 1.5, pointSize: 3 },
-          5: { type: 'line', lineDashStyle: [6, 5], lineWidth: 1.5, pointSize: 0 }
+          5: { type: 'line', lineDashStyle: [6, 5], lineWidth: 1.5, pointSize: 0 } // Meta punteada OEE
         };
       } else {
         const config = metricConfigs[metric] || metricConfigs['oee'];
         table.addColumn('number', config.label);
         table.addColumn({ type: 'string', role: 'annotation' });
-        table.addColumn('number', 'Objetivo OEE');
 
-        rows.forEach(row => {
-          const val = config.getter(row);
-          if (Number.isFinite(val)) values.push(val);
-          const valAnnotation = val != null ? (val * 100).toFixed(2) + '%' : null;
-          table.addRow([
-            row.label || row.periodLabel || row.period,
-            val,
-            valAnnotation,
-            target
-          ]);
-        });
+        if (currentTarget != null) {
+          const targetPctStr = (currentTarget * 100).toFixed(currentTarget === 0.994 || currentTarget === 0.845 ? 1 : 0);
+          table.addColumn('number', `Meta ${config.label} (${targetPctStr}%)`);
 
-        colors = [config.color, '#c00000'];
-        series = {
-          0: isBars ? { } : { lineWidth: 2, pointSize: 4 },
-          1: { type: 'line', lineDashStyle: [6, 5], lineWidth: 1.5, pointSize: 0 }
-        };
+          rows.forEach(row => {
+            const val = config.getter(row);
+            if (Number.isFinite(val)) values.push(val);
+            const valAnnotation = val != null ? (val * 100).toFixed(2) + '%' : null;
+            table.addRow([
+              row.label || row.periodLabel || row.period,
+              val,
+              valAnnotation,
+              currentTarget
+            ]);
+          });
+
+          // Meta punteada del mismo color que el indicador
+          colors = [config.color, config.color];
+          series = {
+            0: isBars ? { } : { lineWidth: 2, pointSize: 4 },
+            1: { type: 'line', lineDashStyle: [6, 5], lineWidth: 1.5, pointSize: 0 }
+          };
+        } else {
+          rows.forEach(row => {
+            const val = config.getter(row);
+            if (Number.isFinite(val)) values.push(val);
+            const valAnnotation = val != null ? (val * 100).toFixed(2) + '%' : null;
+            table.addRow([
+              row.label || row.periodLabel || row.period,
+              val,
+              valAnnotation
+            ]);
+          });
+
+          colors = [config.color];
+          series = {
+            0: isBars ? { } : { lineWidth: 2, pointSize: 4 }
+          };
+        }
       }
 
       if (!values.length) return renderEmpty(els.trendChart, 'Sin datos operativos para esta selección.');
@@ -5866,7 +6083,8 @@ function errorStack_(error) {
         }
       }
 
-      const axisValues = target === null ? values : values.concat(target);
+      const axisTargets = (currentTarget != null) ? [currentTarget] : (metric === 'all' ? [oeeTarget] : []);
+      const axisValues = values.concat(axisTargets);
       const observedMin = Math.min(...axisValues);
       const observedMax = Math.max(...axisValues);
       const axisMin = Math.max(0, Math.floor((observedMin - 0.02) * 20) / 20);

@@ -1189,12 +1189,13 @@ function resolveSelection_(requestedFilters, options, rows) {
     options.periods[options.periods.length - 1].value,
     'periodo final'
   );
-  var defaultFrom = shiftPeriod_(toPeriod, -11);
-  var availableFrom = options.periods.filter(function (period) { return period.value >= defaultFrom && period.value <= toPeriod; });
+  var toYear = toPeriod.split('-')[0];
+  var yearPeriods = options.periods.filter(function (period) { return (period.value || period).startsWith(toYear) && (period.value || period) <= toPeriod; });
+  var defaultFrom = yearPeriods.length ? (yearPeriods[0].value || yearPeriods[0]) : shiftPeriod_(toPeriod, -11);
   var fromPeriod = canonicalPeriod_(
     filters.fromPeriod || filters.from,
     options.periods,
-    availableFrom.length ? availableFrom[0].value : toPeriod,
+    defaultFrom,
     'periodo inicial'
   );
 
