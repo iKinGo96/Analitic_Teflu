@@ -891,117 +891,150 @@
         }
       }
 
-      /* Barra de etiquetas de causas (de 5 en 5, bien ordenadas) */
-      .cause-legend-wrapper {
+      /* Contenedor flexible para dona + causas en vertical */
+      .downtime-pie-content-wrapper {
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        gap: 16px;
+        width: 100%;
+        height: 460px;
+        min-height: 460px;
+        box-sizing: border-box;
+      }
+      .downtime-pie-chart-container {
+        flex: 1;
+        min-width: 0;
+        height: 100%;
+      }
+      .cause-legend-vertical {
+        width: 260px;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        background: var(--surface-variant, #f8fafc);
+        border: 1px solid var(--stroke, #e2e8f0);
+        border-radius: 10px;
+        padding: 10px;
+        box-sizing: border-box;
+        height: 100%;
+      }
+      .cause-legend-nav-top {
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 6px;
-        background: var(--surface-variant, #f8fafc);
-        border: 1px solid var(--stroke, #e2e8f0);
-        border-radius: 8px;
-        padding: 5px 6px;
-        margin-bottom: 10px;
-        box-sizing: border-box;
+        margin-bottom: 8px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid var(--stroke, #e2e8f0);
+        flex-shrink: 0;
       }
-      .cause-badges-row {
-        display: flex;
-        align-items: stretch;
-        gap: 5px;
-        flex: 1;
-        min-width: 0;
-      }
-      .cause-chip {
+      .cause-nav-btn {
         display: inline-flex;
         align-items: center;
-        gap: 5px;
-        padding: 3px 5px;
+        gap: 4px;
         background: var(--surface, #ffffff);
         border: 1px solid var(--stroke, #cbd5e1);
+        color: var(--text, #1e293b);
         border-radius: 6px;
+        padding: 4px 8px;
+        font-size: 11px;
+        font-weight: 600;
         cursor: pointer;
-        flex: 1;
-        min-width: 0;
-        max-width: 220px;
         transition: all 0.15s ease;
-        box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+        line-height: 1;
       }
-      .cause-chip:hover {
-        border-color: #2563eb;
+      .cause-nav-btn:hover:not(:disabled) {
         background: #eff6ff;
-        transform: translateY(-1px);
+        border-color: #3b82f6;
+        color: #1d4ed8;
+      }
+      .cause-nav-btn:disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+      }
+      .cause-nav-page {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--text-muted, #64748b);
+        white-space: nowrap;
+      }
+      .cause-badges-col {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        flex: 1;
+        min-height: 0;
+        overflow-y: auto;
+      }
+      .cause-chip-vertical {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        background: var(--surface, #ffffff);
+        border: 1px solid var(--stroke, #e2e8f0);
+        border-radius: 8px;
+        padding: 6px 9px;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        user-select: none;
+      }
+      .cause-chip-vertical:hover {
+        border-color: #2563eb;
+        background: #f0f7ff;
+        transform: translateX(2px);
+        box-shadow: 0 2px 5px rgba(37,99,235,0.08);
+      }
+      .cause-chip-header {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        min-width: 0;
       }
       .cause-chip-dot {
-        width: 7px;
-        height: 7px;
+        width: 8px;
+        height: 8px;
         border-radius: 50%;
         flex-shrink: 0;
       }
-      .cause-chip-content {
-        display: flex;
-        flex-direction: column;
-        min-width: 0;
-        flex: 1;
-        line-height: 1.15;
-      }
       .cause-chip-label {
-        font-size: 8.5px;
+        font-size: 11px;
         font-weight: 700;
-        color: var(--text, #1e293b);
-        line-height: 1.1;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        word-break: break-word;
-      }
-      .cause-chip-sub {
-        font-size: 8px;
-        color: var(--text-muted, #64748b);
-        font-weight: 500;
-        margin-top: 1px;
+        color: var(--text, #0f1c2e);
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        flex: 1;
       }
-      .legend-nav {
-        display: inline-flex;
-        align-items: center;
-        gap: 2px;
-        flex-shrink: 0;
-        background: var(--surface, #ffffff);
-        border: 1px solid var(--stroke, #cbd5e1);
-        border-radius: 6px;
-        padding: 2px 5px;
-      }
-      .legend-btn {
-        background: none;
-        border: none;
-        color: var(--text, #1e293b);
-        cursor: pointer;
-        font-size: 13px;
-        font-weight: bold;
-        padding: 2px 4px;
-        border-radius: 4px;
+      .cause-chip-stats {
         display: flex;
         align-items: center;
-        justify-content: center;
-        line-height: 1;
+        justify-content: space-between;
+        font-size: 11px;
+        color: var(--text-muted, #64748b);
+        padding-left: 14px;
       }
-      .legend-btn:hover:not(:disabled) {
-        background: var(--surface-variant, #f1f5f9);
+      .cause-chip-mins {
+        font-weight: 500;
+      }
+      .cause-chip-pct {
+        font-weight: 700;
         color: #2563eb;
       }
-      .legend-btn:disabled {
-        opacity: 0.25;
-        cursor: not-allowed;
-      }
-      .legend-info {
-        font-size: 10px;
-        font-weight: 700;
-        color: var(--text-muted, #475569);
-        min-width: 30px;
-        text-align: center;
+      @media (max-width: 768px) {
+        .downtime-pie-content-wrapper {
+          flex-direction: column;
+          height: auto;
+          min-height: 0;
+        }
+        .cause-legend-vertical {
+          width: 100%;
+          height: auto;
+        }
+        .downtime-pie-chart-container {
+          height: 380px;
+        }
       }
       #availabilityProcessMenuWrapper,
       #availabilityWeeklyMenuWrapper {
@@ -2332,11 +2365,11 @@ function errorStack_(error) {
 
       <!-- Controles de Tiempos por Departamento y Disponibilidad -->
       <div id="downtimePieHeaderControls" style="display: none; align-items: center; gap: 12px; margin-left: auto; flex-shrink: 0; flex-wrap: nowrap;">
-        <button type="button" class="action-button" id="downtimePieBackCauseBtn" style="gap: 6px; font-size: 11px; padding: 6px 12px; height: 32px; font-weight: 600; display: none; align-items: center; background: #2563eb; color: #ffffff; border-radius: 8px; cursor: pointer; box-sizing: border-box;">
+        <button type="button" class="action-button" id="downtimePieBackCauseBtn" style="display: none !important;">
           <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
           <span id="downtimePieBackCauseLabel">Volver a Causas</span>
         </button>
-        <button type="button" class="action-button" id="downtimePieBackBtn" style="gap: 6px; font-size: 11px; padding: 6px 12px; height: 32px; font-weight: 600; display: none; align-items: center; background: #2a3b50; color: #ffffff; border-radius: 8px; cursor: pointer; box-sizing: border-box;">
+        <button type="button" class="action-button" id="downtimePieBackBtn" style="display: none !important;">
           <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
           <span id="downtimePieBackLabel">Volver a Departamentos</span>
         </button>
@@ -2885,13 +2918,20 @@ function errorStack_(error) {
                 <div style="background: var(--surface, #ffffff); border: 1px solid var(--stroke, #e2e8f0); border-radius: 12px; padding: 18px; display: flex; flex-direction: column;">
                   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
                     <h3 id="downtimePieBoxTitle" style="font-size: 16px; font-weight: 700; color: var(--text, #0f1c2e); margin: 0;">Distribucion por Departamento</h3>
-                    <button type="button" class="action-button" id="downloadDowntimePieChart" title="Descargar grafica en HD" style="width: 32px; height: 32px; padding: 0; display: inline-flex; justify-content: center; align-items: center; border-radius: 8px;">
-                      <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                    </button>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                      <button type="button" class="action-button" id="downtimeCardBackBtn" title="Volver a Departamentos" style="width: 32px; height: 32px; padding: 0; display: none; justify-content: center; align-items: center; border-radius: 8px; cursor: pointer;" aria-label="Volver a Departamentos">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+                      </button>
+                      <button type="button" class="action-button" id="downloadDowntimePieChart" title="Descargar grafica en HD" style="width: 32px; height: 32px; padding: 0; display: inline-flex; justify-content: center; align-items: center; border-radius: 8px;">
+                        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                      </button>
+                    </div>
                   </div>
                   <p id="downtimePieBoxSubtitle" style="font-size: 12px; color: var(--text-muted, #64748b); margin: 0 0 10px 0;">Haz clic en un departamento para filtrar sus paros generales</p>
-                  <div id="downtimePieLegendContainer" class="cause-legend-wrapper" style="display: none;"></div>
-                  <div id="downtimePieChart" style="width: 100%; height: 480px;">Cargando...</div>
+                  <div id="downtimePieContentWrapper" class="downtime-pie-content-wrapper">
+                    <div id="downtimePieChart" class="downtime-pie-chart-container" style="flex: 1; height: 100%; min-width: 0;">Cargando...</div>
+                    <div id="downtimePieLegendContainer" class="cause-legend-vertical" style="display: none;"></div>
+                  </div>
                 </div>
 
                 <!-- Columna Derecha: Grafica de Disponibilidad en Barras por Departamento -->
@@ -2903,8 +2943,8 @@ function errorStack_(error) {
                     </button>
                   </div>
                   <p id="downtimeMachineBarSubtitle" style="font-size: 12px; color: var(--text-muted, #64748b); margin: 0 0 10px 0;">Afectacion de cada departamento en las maquinas principales</p>
-                  <div id="downtimeMachineBarLegendContainer" class="cause-legend-wrapper" style="display: none;"></div>
-                  <div id="downtimeMachineBarChart" style="width: 100%; height: 480px;">Cargando...</div>
+                  <div id="downtimeMachineBarLegendContainer" style="display: none !important;"></div>
+                  <div id="downtimeMachineBarChart" style="width: 100%; height: 460px;">Cargando...</div>
                 </div>
               </div>
 
@@ -3292,7 +3332,7 @@ function errorStack_(error) {
         'viewHistory', 'viewCritical', 'viewAvailability', 'availabilityButton', 'availabilityTitle', 'availabilitySubtitle', 'availabilityChart',
         'criticalAccess', 'availabilityProcess', 'availabilityMachine', 'availabilityGeneralCause', 'availabilityFrom', 'availabilityTo',
         'availabilityRefresh', 'availabilityStatus', 'availabilityTotals', 'availabilityTable', 'availabilityBackBtn',
-        'viewScrap', 'scrapMenuButton', 'scrapMachine', 'scrapModoFalla', 'scrapFrom', 'scrapTo', 'scrapProcess', 'scrapStatus', 'scrapTitle', 'scrapSubtitle', 'scrapBackBtn', 'scrapTimelineMin', 'scrapTimelineMax', 'scrapTimelineMinLabel', 'scrapTimelineMaxLabel', 'scrapTimelineFill', 'btnScrapProcess', 'btnScrapProcessLabel', 'scrapProcessMenuWrapper', 'scrapProcessDropdown', 'scrapProcessOptionsList', 'btnScrapClassic', 'btnScrapWeekly', 'btnScrapWeeklyLabel', 'scrapWeeklyMenuWrapper', 'scrapWeeklyDropdown', 'scrapModeStacked', 'scrapModeGrouped', 'scrapModeWeekly', 'scrapTotals', 'scrapChart', 'scrapTable', 'downloadScrapChart', 'scrapRefresh', 'productionMenuButton', 'viewProduction', 'downtimePieMenuButton', 'viewDowntimePie', 'downtimePieTimelineMinLabel', 'downtimePieTimelineMaxLabel', 'downtimePieTimelineFill', 'downtimePieTimelineMin', 'downtimePieTimelineMax', 'downtimePieChart', 'downtimeMachineBarChart', 'downtimePieLegendContainer', 'downtimeMachineBarLegendContainer', 'downtimePieBoxTitle', 'downtimePieBoxSubtitle', 'downtimeMachineBarTitle', 'downtimeMachineBarSubtitle', 'downloadDowntimeMachineBarChart', 'downtimePieFrom', 'downtimePieTo', 'downtimePieSubtitle', 'downloadDowntimePieChart', 'downtimeLevel3ControlBar', 'downtimeLevel3ModePartBtn', 'downtimeLevel3ModeMachineBtn', 'downtimePieTitle', 'downtimePieBackCauseBtn', 'downtimePieBackCauseLabel', 'downtimePieBackBtn', 'downtimePieBackLabel', 'downtimePieRefreshBtn', 'downtimePieTableContainer', 'productionChart1', 'productionChart2', 'productionTable1', 'productionTable2', 'refreshProductionBtn',
+        'viewScrap', 'scrapMenuButton', 'scrapMachine', 'scrapModoFalla', 'scrapFrom', 'scrapTo', 'scrapProcess', 'scrapStatus', 'scrapTitle', 'scrapSubtitle', 'scrapBackBtn', 'scrapTimelineMin', 'scrapTimelineMax', 'scrapTimelineMinLabel', 'scrapTimelineMaxLabel', 'scrapTimelineFill', 'btnScrapProcess', 'btnScrapProcessLabel', 'scrapProcessMenuWrapper', 'scrapProcessDropdown', 'scrapProcessOptionsList', 'btnScrapClassic', 'btnScrapWeekly', 'btnScrapWeeklyLabel', 'scrapWeeklyMenuWrapper', 'scrapWeeklyDropdown', 'scrapModeStacked', 'scrapModeGrouped', 'scrapModeWeekly', 'scrapTotals', 'scrapChart', 'scrapTable', 'downloadScrapChart', 'scrapRefresh', 'productionMenuButton', 'viewProduction', 'downtimePieMenuButton', 'viewDowntimePie', 'downtimePieTimelineMinLabel', 'downtimePieTimelineMaxLabel', 'downtimePieTimelineFill', 'downtimePieTimelineMin', 'downtimePieTimelineMax', 'downtimePieChart', 'downtimeMachineBarChart', 'downtimePieLegendContainer', 'downtimeMachineBarLegendContainer', 'downtimePieBoxTitle', 'downtimePieBoxSubtitle', 'downtimeMachineBarTitle', 'downtimeMachineBarSubtitle', 'downloadDowntimeMachineBarChart', 'downtimePieFrom', 'downtimePieTo', 'downtimePieSubtitle', 'downloadDowntimePieChart', 'downtimeCardBackBtn', 'downtimeLevel3ControlBar', 'downtimeLevel3ModePartBtn', 'downtimeLevel3ModeMachineBtn', 'downtimePieTitle', 'downtimePieBackCauseBtn', 'downtimePieBackCauseLabel', 'downtimePieBackBtn', 'downtimePieBackLabel', 'downtimePieRefreshBtn', 'downtimePieTableContainer', 'productionChart1', 'productionChart2', 'productionTable1', 'productionTable2', 'refreshProductionBtn',
           'kpiComparisonMenuButton', 'viewKpiComparison', 'kpiComparisonMetric', 'kpiComparisonChart',
         'criticalMetricToggles', 'criticalMetricLegend', 'criticalChartLegend', 'criticalComparisonChart',
         'criticalDashboard', 'criticalChartFilter',
@@ -4451,6 +4491,18 @@ function errorStack_(error) {
       if (els.downtimeLevel3ModeMachineBtn) {
         els.downtimeLevel3ModeMachineBtn.addEventListener('click', () => {
           state.downtimeLevel3Mode = 'machine';
+          renderDowntimePieView();
+        });
+      }
+
+      if (els.downtimeCardBackBtn) {
+        els.downtimeCardBackBtn.addEventListener('click', () => {
+          if (state.downtimePieSelectedCause) {
+            state.downtimePieSelectedCause = null;
+          } else {
+            state.downtimePieSelectedDept = null;
+          }
+          state.downtimeCauseLegendPage = 0;
           renderDowntimePieView();
         });
       }
@@ -6290,8 +6342,14 @@ function errorStack_(error) {
     function renderDowntimeCauseLegends(causes, totalDeptMinutes) {
       window._lastDowntimeCauses = causes || [];
       window._lastDowntimeDeptMinutes = totalDeptMinutes || 0;
-      const containers = [els.downtimePieLegendContainer, els.downtimeMachineBarLegendContainer];
-      const PAGE_SIZE = 5;
+      const container = els.downtimePieLegendContainer;
+      if (els.downtimeMachineBarLegendContainer) {
+        els.downtimeMachineBarLegendContainer.style.display = 'none';
+        els.downtimeMachineBarLegendContainer.innerHTML = '';
+      }
+      if (!container) return;
+
+      const PAGE_SIZE = 6;
       const totalPages = Math.ceil((causes || []).length / PAGE_SIZE) || 1;
       if (!state.downtimeCauseLegendPage || state.downtimeCauseLegendPage < 0) state.downtimeCauseLegendPage = 0;
       if (state.downtimeCauseLegendPage >= totalPages) state.downtimeCauseLegendPage = totalPages - 1;
@@ -6299,46 +6357,47 @@ function errorStack_(error) {
       const start = state.downtimeCauseLegendPage * PAGE_SIZE;
       const pageItems = (causes || []).slice(start, start + PAGE_SIZE);
 
-      let chipsHtml = '<div class="cause-badges-row">';
+      const prevDisabled = state.downtimeCauseLegendPage === 0 ? 'disabled' : '';
+      const nextDisabled = state.downtimeCauseLegendPage >= totalPages - 1 ? 'disabled' : '';
+
+      let navHtml = `
+        <div class="cause-legend-nav-top">
+          <button type="button" class="cause-nav-btn" ${prevDisabled} onclick="changeDowntimeLegendPage(-1)" title="Causas anteriores">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+            <span>Anteriores</span>
+          </button>
+          <span class="cause-nav-page">${state.downtimeCauseLegendPage + 1} / ${totalPages}</span>
+          <button type="button" class="cause-nav-btn" ${nextDisabled} onclick="changeDowntimeLegendPage(1)" title="Siguientes causas">
+            <span>Siguientes</span>
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+      `;
+
+      let chipsHtml = '<div class="cause-badges-col">';
       pageItems.forEach((c, idx) => {
         const globalIdx = start + idx;
         const color = CAUSE_COLORS_PALETTE[globalIdx % CAUSE_COLORS_PALETTE.length];
         const mins = Number(c.minutes) || 0;
         const pct = totalDeptMinutes > 0 ? ((mins / totalDeptMinutes) * 100).toFixed(1) : '0.0';
-        const safeLabel = escapeHtml(c.label).replace(/'/g, "\'");
+        const safeLabel = escapeHtml(c.label).replace(/'/g, "\\'");
         chipsHtml += `
-          <div class="cause-chip" title="${escapeHtml(c.label)}: ${formatInteger(Math.round(mins))} min (${pct}%) — Haz clic para ver por número de parte" onclick="state.downtimePieSelectedCause = '${safeLabel}'; renderDowntimePieView();" onmouseenter="if(window._downtimePieChartInstance) window._downtimePieChartInstance.setSelection([{row:${globalIdx}}]);" onmouseleave="if(window._downtimePieChartInstance) window._downtimePieChartInstance.setSelection([]);">
-            <span class="cause-chip-dot" style="background: ${color};"></span>
-            <div class="cause-chip-content">
+          <div class="cause-chip-vertical" title="${escapeHtml(c.label)}: ${formatInteger(Math.round(mins))} min (${pct}%) — Haz clic para ver por número de parte" onclick="state.downtimePieSelectedCause = '${safeLabel}'; renderDowntimePieView();" onmouseenter="if(window._downtimePieChartInstance) window._downtimePieChartInstance.setSelection([{row:${globalIdx}}]);" onmouseleave="if(window._downtimePieChartInstance) window._downtimePieChartInstance.setSelection([]);">
+            <div class="cause-chip-header">
+              <span class="cause-chip-dot" style="background: ${color};"></span>
               <span class="cause-chip-label">${escapeHtml(c.label)}</span>
-              <span class="cause-chip-sub">${formatInteger(Math.round(mins))}m · ${pct}%</span>
+            </div>
+            <div class="cause-chip-stats">
+              <span class="cause-chip-mins">${formatInteger(Math.round(mins))} min</span>
+              <span class="cause-chip-pct">${pct}%</span>
             </div>
           </div>
         `;
       });
       chipsHtml += '</div>';
 
-      let navHtml = '';
-      if (totalPages > 1) {
-        const prevDisabled = state.downtimeCauseLegendPage === 0 ? 'disabled' : '';
-        const nextDisabled = state.downtimeCauseLegendPage >= totalPages - 1 ? 'disabled' : '';
-        navHtml = `
-          <div class="legend-nav">
-            <button type="button" class="legend-btn" ${prevDisabled} onclick="changeDowntimeLegendPage(-1)" title="Causas anteriores">◄</button>
-            <span class="legend-info">${state.downtimeCauseLegendPage + 1} / ${totalPages}</span>
-            <button type="button" class="legend-btn" ${nextDisabled} onclick="changeDowntimeLegendPage(1)" title="Siguientes causas">►</button>
-          </div>
-        `;
-      }
-
-      const fullHtml = chipsHtml + navHtml;
-
-      containers.forEach(container => {
-        if (container) {
-          container.style.display = 'flex';
-          container.innerHTML = fullHtml;
-        }
-      });
+      container.style.display = 'flex';
+      container.innerHTML = navHtml + chipsHtml;
     }
 
     function changeDowntimeLegendPage(delta) {
@@ -6448,18 +6507,13 @@ function errorStack_(error) {
           els.downtimePieTitle.style.display = 'inline';
           els.downtimePieTitle.textContent = 'Paros Generales · ' + selectedDept + ' → ' + selectedCause;
         }
-        if (els.downtimePieBackCauseBtn) {
-          els.downtimePieBackCauseBtn.style.display = 'inline-flex';
-          if (els.downtimePieBackCauseLabel) {
-            els.downtimePieBackCauseLabel.textContent = 'Volver a Causas de ' + selectedDept;
-          }
+        if (els.downtimeCardBackBtn) {
+          els.downtimeCardBackBtn.style.display = 'inline-flex';
+          els.downtimeCardBackBtn.title = 'Volver a Causas de ' + selectedDept;
+          els.downtimeCardBackBtn.setAttribute('aria-label', 'Volver a Causas de ' + selectedDept);
         }
-        if (els.downtimePieBackBtn) {
-          els.downtimePieBackBtn.style.display = 'inline-flex';
-          if (els.downtimePieBackLabel) {
-            els.downtimePieBackLabel.textContent = 'Volver a Departamentos';
-          }
-        }
+        if (els.downtimePieBackCauseBtn) els.downtimePieBackCauseBtn.style.display = 'none';
+        if (els.downtimePieBackBtn) els.downtimePieBackBtn.style.display = 'none';
 
         const causeRows = filteredRows.filter(row => row.dept === selectedDept && row.cg === selectedCause);
 
@@ -6932,15 +6986,13 @@ ${formatInteger(Math.round(mins))} min`;
           els.downtimePieTitle.style.display = 'inline';
           els.downtimePieTitle.textContent = 'Paros Generales · ' + selectedDept;
         }
-        if (els.downtimePieBackCauseBtn) {
-          els.downtimePieBackCauseBtn.style.display = 'none';
+        if (els.downtimeCardBackBtn) {
+          els.downtimeCardBackBtn.style.display = 'inline-flex';
+          els.downtimeCardBackBtn.title = 'Volver a Departamentos';
+          els.downtimeCardBackBtn.setAttribute('aria-label', 'Volver a Departamentos');
         }
-        if (els.downtimePieBackBtn) {
-          els.downtimePieBackBtn.style.display = 'inline-flex';
-          if (els.downtimePieBackLabel) {
-            els.downtimePieBackLabel.textContent = 'Volver a Departamentos';
-          }
-        }
+        if (els.downtimePieBackCauseBtn) els.downtimePieBackCauseBtn.style.display = 'none';
+        if (els.downtimePieBackBtn) els.downtimePieBackBtn.style.display = 'none';
         if (els.downtimePieBoxTitle) {
           els.downtimePieBoxTitle.textContent = 'Causas de Paro en ' + selectedDept;
         }
@@ -7170,6 +7222,9 @@ ${formatInteger(Math.round(mins))} min`;
       if (els.downtimePieTitle) {
         els.downtimePieTitle.style.display = 'none';
         els.downtimePieTitle.textContent = '';
+      }
+      if (els.downtimeCardBackBtn) {
+        els.downtimeCardBackBtn.style.display = 'none';
       }
       if (els.downtimePieBackCauseBtn) {
         els.downtimePieBackCauseBtn.style.display = 'none';
