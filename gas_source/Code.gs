@@ -112,7 +112,9 @@ function doGet(e) {
   try {
     return HtmlService.createTemplateFromFile('Index')
       .evaluate()
-      .setTitle('Tendencias de máquinas');
+      .setTitle('Tendencias de máquinas')
+      .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
+      .addMetaTag('viewport', 'width=device-width, initial-scale=1');
   } catch (error) {
     console.error('Error al servir Index.html: ' + errorStack_(error));
     throw new Error(
